@@ -1,7 +1,6 @@
 import childProcess from 'child_process';
 import path from 'path';
 import fs from 'fs';
-import findNodeModules from 'find-node-modules';
 import _ from 'lodash';
 import detectIndent from 'detect-indent';
 
@@ -84,26 +83,18 @@ function generateInstallAdapterCommand(stringMappings, adapterNpmName, packageMa
 /**
  * Gets the nearest npm_modules directory
  */
-function getNearestNodeModulesDirectory (options) {
-
-  // Get the nearest node_modules directories to the current working directory
-  let nodeModulesDirectories = findNodeModules(options);
-
-  // Make sure we find a node_modules folder
-
-  /* istanbul ignore else */
-  if (nodeModulesDirectories && nodeModulesDirectories.length > 0) {
-    return nodeModulesDirectories[0];
-  } else {
-    console.error(`Error: Could not locate node_modules in your project's root directory. Did you forget to npm init or npm install?`)
+function getNearestNodeModulesDirectory () {
+  if (fs.existsSync("node_modules")) {
+      return "node_modules"
   }
+  console.error(`Error: Could not locate node_modules in your project's root directory. Did you forget to npm init or npm install?`)
 }
 
 /**
  * Gets the nearest project root directory
  */
 function getNearestProjectRootDirectory (repoPath, options) {
-  return path.join(repoPath, getNearestNodeModulesDirectory(options), '/../');
+  return path.join(repoPath, getNearestNodeModulesDirectory(), '/../');
 }
 
 /**

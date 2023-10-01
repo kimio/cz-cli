@@ -59,7 +59,7 @@ function init (repoPath, adapterNpmName, {
   pnpm = false,
   includeCommitizen = false
 } = defaultInitOptions) {
-
+  
   // Don't let things move forward if required args are missing
   checkRequiredArguments(repoPath, adapterNpmName);
 
